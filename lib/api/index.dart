@@ -1,3 +1,4 @@
 class Api {
-  static String baseApi = 'https://f92d-103-155-54-197.ngrok.io';
+  static String baseApi =
+      'https://digiscanapp.in2.cdn-alpha.com/api/user-login';
 }

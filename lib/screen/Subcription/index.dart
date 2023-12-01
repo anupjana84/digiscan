@@ -1,3 +1,5 @@
+import 'package:digiscan/screen/Slides/index.dart';
+import 'package:digiscan/screen/Video/index.dart';
 import 'package:digiscan/screen/login/widget/header.dart';
 import 'package:flutter/material.dart';
 
@@ -27,34 +29,45 @@ class _SubcriptionState extends State<Subcription> {
             ],
           ),
         ),
-        child: SafeArea(
-          child: Column(
-            children: [
-              Header(),
-              SizedBox(
-                height: 70,
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: 30.0, right: 30.00),
+        child: Column(
+          children: [
+            Header(),
+            SizedBox(
+              height: 70,
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 30.0, right: 30.00),
+              child: InkWell(
+                onTap: () {
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => Video()));
+                },
                 child: Container(
                   height: 200,
                   child: Stack(
                     children: [
                       Container(
-                        height: 200,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.00),
-                          image: DecorationImage(
-                            image: NetworkImage(
-                                "https://images.pexels.com/photos/19031635/pexels-photo-19031635/free-photo-of-a-window-with-a-reflection-of-trees-and-water.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"),
-                            fit: BoxFit.fill,
+                          height: 200,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.00),
+                            // image: DecorationImage(
+                            //   image: NetworkImage(
+                            //       "https://images.pexels.com/photos/19031635/pexels-photo-19031635/free-photo-of-a-window-with-a-reflection-of-trees-and-water.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"),
+                            //   fit: BoxFit.fill,
+                            // ),
                           ),
-                        ),
-                      ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10.0),
+                            child: Image(
+                              image: AssetImage(
+                                  'images/image69.png'), // Adjust the path accordingly
+                              fit: BoxFit.cover, // Set height as needed
+                            ),
+                          )),
                       Container(
                         height: 200,
                         decoration: BoxDecoration(
-                            color: Color(0xff000000).withOpacity(0.5),
+                            color: Color(0xff000000).withOpacity(0.2),
                             borderRadius: BorderRadius.circular(10.00)),
                         child: Center(
                           child: Column(
@@ -77,9 +90,15 @@ class _SubcriptionState extends State<Subcription> {
                   ),
                 ),
               ),
-              SizedBox(height: 20.00),
-              Padding(
-                padding: EdgeInsets.only(left: 30.0, right: 30.00),
+            ),
+            SizedBox(height: 20.00),
+            Padding(
+              padding: EdgeInsets.only(left: 30.0, right: 30.00),
+              child: InkWell(
+                onTap: () {
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => Slides()));
+                },
                 child: Container(
                   height: 200,
                   child: Stack(
@@ -88,17 +107,24 @@ class _SubcriptionState extends State<Subcription> {
                         height: 200,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10.00),
-                          image: DecorationImage(
-                            image: NetworkImage(
-                                "https://images.pexels.com/photos/19031635/pexels-photo-19031635/free-photo-of-a-window-with-a-reflection-of-trees-and-water.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"),
-                            fit: BoxFit.fill,
+                          // image: DecorationImage(
+                          //   image: NetworkImage(
+                          //   fit: BoxFit.fill,
+                          // ),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10.00),
+                          child: Image(
+                            image: AssetImage(
+                                'images/image9.png'), // Adjust the path accordingly
+                            fit: BoxFit.cover, // Set height as needed
                           ),
                         ),
                       ),
                       Container(
                         height: 200,
                         decoration: BoxDecoration(
-                            color: Color(0xff000000).withOpacity(0.5),
+                            color: Color(0xff000000).withOpacity(0.2),
                             borderRadius: BorderRadius.circular(10.00)),
                         child: Center(
                           child: Column(
@@ -121,8 +147,8 @@ class _SubcriptionState extends State<Subcription> {
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     ));

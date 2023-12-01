@@ -1,5 +1,6 @@
 import 'package:digiscan/globalWiget/loder/index.dart';
 import 'package:digiscan/screen/ForgotPassword/index.dart';
+import 'package:digiscan/screen/home/index.dart';
 import 'package:digiscan/screen/home/widget/TitleWidget.dart';
 import 'package:digiscan/screen/login/widget/header.dart';
 import 'package:digiscan/screen/home/widget/middleText.dart';
@@ -244,8 +245,12 @@ free to reach out. Happy exploring!''';
                               ),
                             ),
                             onPressed: () {
-                              print("object");
-                              createAlbum();
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => Home()),
+                              );
+                              // print("object");
+                              // createAlbum();
                               // MySnakBar('my Sessage', context);
                             },
                             child: Text(

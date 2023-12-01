@@ -94,7 +94,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         showDialog(
             context: context,
             builder: (context) {
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: const CircularProgressIndicator());
             });
 
         final response = await http.post(

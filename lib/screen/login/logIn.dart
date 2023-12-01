@@ -1,5 +1,7 @@
 import 'package:digiscan/globalWiget/loder/index.dart';
 import 'package:digiscan/screen/ForgotPassword/index.dart';
+import 'package:digiscan/screen/Success/index.dart';
+import 'package:digiscan/screen/home/index.dart';
 import 'package:digiscan/screen/home/widget/TitleWidget.dart';
 import 'package:digiscan/screen/login/widget/header.dart';
 import 'package:digiscan/screen/home/widget/middleText.dart';
@@ -81,8 +83,8 @@ class _LoginState extends State<Login> {
     ));
   }
 
-  createAlbum() async {
-    var api = Api.baseApi + '/api/v1/register';
+  login() async {
+    var api = Api.baseApi;
     print(api);
     if (!formKey.currentState!.validate()) {
       return mySnak('All Field required', context);
@@ -103,36 +105,33 @@ class _LoginState extends State<Login> {
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
           },
-          body: jsonEncode(<String, String>{
-            "name": name,
-            "email": email,
-            "password": password
-          }),
+          body: jsonEncode(
+              <String, String>{"identifier": email, "password": password}),
         );
-        if (response.statusCode == 201) {
-          var na = jsonDecode(response.body);
-          // Navigator.of(context).pop();
+        if (response.statusCode == 200) {
+          var res = jsonDecode(response.body);
+
           Navigator.pop(context);
-          mySnak(na['message'], context);
-          formKey.currentState!.reset();
-          print(na['message']);
-          print("na");
+
+          // formKey.currentState!.reset();
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.setString('user', jsonEncode(res));
+
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => Home()));
+          // // print(res['error']);
+          print(res);
         } else {
-          // If the server did not return a 201 CREATED response,
-          // then throw an exception.
-          // throw Exception('Failed to create album.');
           var na = jsonDecode(response.body);
-          // Navigator.of(context).pop();
+
           Navigator.pop(context);
           mySnak(na['error'], context);
-          print(na['error']);
-          print("error");
         }
       } catch (e) {
         // Navigator.of(context).pop();
         Navigator.pop(context);
         mySnak('Somthing went wrong', context);
-        print('${e} name');
+
         print("e");
       }
     }
@@ -239,10 +238,12 @@ class _LoginState extends State<Login> {
                       child: Padding(
                         padding: EdgeInsets.only(left: 20.0, right: 20.0),
                         child: TextFormField(
-                          obscureText: show,
                           onSaved: (input) => email = input,
-                          validator:
-                              EmailValidator(errorText: 'Email field required'),
+                          validator: MultiValidator([
+                            RequiredValidator(errorText: 'Email is required'),
+                            EmailValidator(
+                                errorText: 'Enter a valid email address')
+                          ]),
                           style: TextStyle(fontSize: 15, color: Colors.black),
                           decoration: InputDecoration(
                             errorStyle: TextStyle(
@@ -293,9 +294,10 @@ class _LoginState extends State<Login> {
                       child: Padding(
                         padding: EdgeInsets.only(left: 20.0, right: 20.0),
                         child: TextFormField(
-                          onSaved: (input) => name = input,
+                          obscureText: show,
+                          onSaved: (input) => password = input,
                           validator: RequiredValidator(
-                              errorText: 'Name field required'),
+                              errorText: 'Password field required'),
                           style: TextStyle(fontSize: 15, color: Colors.black),
                           decoration: InputDecoration(
                             errorStyle: TextStyle(
@@ -319,7 +321,7 @@ class _LoginState extends State<Login> {
                                 ),
                               ),
                             ),
-                            hintText: 'Email',
+                            hintText: 'password',
                             filled: true,
                             fillColor: Colors.white,
                             contentPadding: EdgeInsets.only(left: 20.0),
@@ -357,10 +359,11 @@ class _LoginState extends State<Login> {
                                   fontWeight: FontWeight.w600),
                             ),
                             onTap: () {
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Register()));
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ForgotPassword()),
+                              );
                             },
                           )
                         ],
@@ -387,8 +390,13 @@ class _LoginState extends State<Login> {
                               ),
                             ),
                             onPressed: () {
-                              print("object");
-                              createAlbum();
+                              // print("object");
+                              login();
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //       builder: (context) => Success()),
+                              // );
                               // MySnakBar('my Sessage', context);
                             },
                             child: Text(

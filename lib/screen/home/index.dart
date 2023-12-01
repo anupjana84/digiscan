@@ -1,4 +1,6 @@
 import 'package:digiscan/screen/Subcription/index.dart';
+import 'package:digiscan/screen/Video/index.dart';
+import 'package:digiscan/screen/profile/index.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -12,8 +14,10 @@ class _HomeState extends State<Home> {
   final List<Widget> _pages = [
     // Add your pages here
     Subcription(),
-    Page2(),
+
     Page3(),
+    Video(),
+    Profile(),
   ];
 
   @override
@@ -21,7 +25,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       body: _pages[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Colors.orange, // Set the selected tab color
+        selectedItemColor: Colors.black, // Set the selected tab color
         unselectedItemColor: Colors.grey, // Set the unselected tab color
         backgroundColor: Colors.white, // Set the background color
         type: BottomNavigationBarType.fixed,
@@ -37,12 +41,16 @@ class _HomeState extends State<Home> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Admin',
+            icon: Icon(Icons.image_rounded),
+            label: 'Slides',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.videocam_sharp),
+            label: 'Video',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
-            label: 'Page 3',
+            label: 'Profile',
           ),
         ],
       ),
@@ -73,6 +81,15 @@ class Page3 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Text('Page 3 Content'),
+    );
+  }
+}
+
+class Page4 extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text('Page 4 Content'),
     );
   }
 }

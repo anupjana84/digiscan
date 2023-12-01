@@ -6,6 +6,8 @@ import 'package:digiscan/screen/home/widget/header.dart';
 import 'package:digiscan/screen/login/logIn.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 
 class Splash extends StatefulWidget {
   const Splash({super.key});
@@ -19,17 +21,34 @@ class _SplashState extends State<Splash> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Timer(Duration(seconds: 3), () {
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => ForgotPassword()));
-    });
+    this.getDataa();
+  }
+
+  Future getDataa() async {
+    final prefs = await SharedPreferences.getInstance();
+    var dta = await prefs.getString('user');
+    var userData = jsonDecode(dta.toString());
+    print(userData);
+    if (userData != null) {
+      Timer(Duration(seconds: 2), () {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => Home()));
+      });
+    } else {
+      Timer(Duration(seconds: 2), () {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => Login()));
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
       backgroundColor: Colors.red[600],
       body: Container(
+        clipBehavior: Clip.hardEdge,
         decoration: BoxDecoration(
           gradient: const LinearGradient(
             begin: FractionalOffset(0.5, 0),
