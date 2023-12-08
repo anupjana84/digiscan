@@ -2,15 +2,38 @@ import 'package:digiscan/screen/Slides/index.dart';
 import 'package:digiscan/screen/Video/index.dart';
 import 'package:digiscan/screen/login/widget/header.dart';
 import 'package:flutter/material.dart';
+import 'dart:async';
+
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Subcription extends StatefulWidget {
-  const Subcription({super.key});
+  Subcription({super.key});
 
   @override
   State<Subcription> createState() => _SubcriptionState();
 }
 
 class _SubcriptionState extends State<Subcription> {
+  var email = "";
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    this.getDataa();
+  }
+
+  Future getDataa() async {
+    final prefs = await SharedPreferences.getInstance();
+    var userData = await prefs.getString('user');
+    var convertData = jsonDecode(userData.toString());
+    print(convertData);
+    setState(() {
+      email = convertData['email'];
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +63,7 @@ class _SubcriptionState extends State<Subcription> {
               child: InkWell(
                 onTap: () {
                   Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => Video()));
+                      MaterialPageRoute(builder: (context) => Video(email)));
                 },
                 child: Container(
                   height: 200,
@@ -96,7 +119,7 @@ class _SubcriptionState extends State<Subcription> {
               padding: EdgeInsets.only(left: 30.0, right: 30.00),
               child: InkWell(
                 onTap: () {
-                  Navigator.pushReplacement(context,
+                  Navigator.push(context,
                       MaterialPageRoute(builder: (context) => Slides()));
                 },
                 child: Container(

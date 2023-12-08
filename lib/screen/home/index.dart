@@ -11,12 +11,13 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int _currentIndex = 0;
 
+  var name = "";
   final List<Widget> _pages = [
     // Add your pages here
     Subcription(),
 
     Page3(),
-    Video(),
+    Video('name'),
     Profile(),
   ];
 
@@ -44,10 +45,10 @@ class _HomeState extends State<Home> {
             icon: Icon(Icons.image_rounded),
             label: 'Slides',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.videocam_sharp),
-            label: 'Video',
-          ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.videocam_sharp),
+          //   label: 'Video',
+          // ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'Profile',
