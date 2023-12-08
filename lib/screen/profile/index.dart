@@ -40,7 +40,7 @@ class _ProfileState extends State<Profile> {
 
   Future logOut() async {
     final prefs = await SharedPreferences.getInstance();
-    var userData = await prefs.remove('user');
+    await prefs.remove('user');
 
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => Login()));

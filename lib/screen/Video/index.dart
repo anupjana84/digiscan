@@ -1,4 +1,3 @@
-import 'package:digiscan/screen/VideoSub/index.dart';
 import 'package:flutter/material.dart';
 import 'package:digiscan/screen/login/widget/header.dart';
 
@@ -14,7 +13,6 @@ class Video extends StatefulWidget {
 class _VideoState extends State<Video> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     print("aname ${widget.name}");
   }

@@ -1,5 +1,4 @@
 import 'package:digiscan/screen/Splash/index.dart';
-import 'package:digiscan/screen/login/logIn.dart';
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
@@ -18,8 +17,6 @@ class MyApp extends StatefulWidget {
 class MyAppState extends State<MyApp> {
   @override
   void initState() {
-    // TODO: implement initState
-
     super.initState();
   }
 

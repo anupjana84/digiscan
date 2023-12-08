@@ -1,14 +1,7 @@
-import 'package:digiscan/screen/register/header.dart';
-import 'package:digiscan/screen/home/widget/TitleWidget.dart';
-import 'package:digiscan/screen/home/widget/header.dart';
-import 'package:digiscan/screen/home/widget/middleText.dart';
 import 'package:flutter/material.dart';
 import 'package:digiscan/api/index.dart';
-import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
-import 'package:form_field_validator/form_field_validator.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -21,7 +14,6 @@ class _RegisterState extends State<Register> {
   var name = true;
   @override
   void initState() {
-    // TODO: implement initState
     // gotoRoute();
     super.initState();
   }

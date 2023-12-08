@@ -1,15 +1,9 @@
-import 'package:digiscan/globalWiget/loder/index.dart';
-import 'package:digiscan/screen/ForgotPassword/index.dart';
-import 'package:digiscan/screen/home/widget/TitleWidget.dart';
 import 'package:digiscan/screen/login/widget/header.dart';
-import 'package:digiscan/screen/home/widget/middleText.dart';
-import 'package:digiscan/screen/register/index.dart';
 import 'package:flutter/material.dart';
 import 'package:digiscan/api/index.dart';
-import 'dart:async';
+// import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:form_field_validator/form_field_validator.dart';
 
@@ -29,8 +23,6 @@ class _ForgotPasswordState extends State<ForgotPassword> {
 
   @override
   void initState() {
-    // TODO: implement initState
-
     super.initState();
   }
 
@@ -347,39 +339,39 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   }
 }
 
-Future<void> _dialogBuilder(BuildContext context) {
-  return showDialog<void>(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: const Text('Basic dialog title'),
-        content: const Text(
-          'A dialog is a type of modal window that\n'
-          'appears in front of app content to\n'
-          'provide critical information, or prompt\n'
-          'for a decision to be made.',
-        ),
-        actions: <Widget>[
-          TextButton(
-            style: TextButton.styleFrom(
-              textStyle: Theme.of(context).textTheme.labelLarge,
-            ),
-            child: const Text('Disable'),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-          TextButton(
-            style: TextButton.styleFrom(
-              textStyle: Theme.of(context).textTheme.labelLarge,
-            ),
-            child: const Text('Enable'),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-        ],
-      );
-    },
-  );
-}
+// Future<void> _dialogBuilder(BuildContext context) {
+//   return showDialog<void>(
+//     context: context,
+//     builder: (BuildContext context) {
+//       return AlertDialog(
+//         title: const Text('Basic dialog title'),
+//         content: const Text(
+//           'A dialog is a type of modal window that\n'
+//           'appears in front of app content to\n'
+//           'provide critical information, or prompt\n'
+//           'for a decision to be made.',
+//         ),
+//         actions: <Widget>[
+//           TextButton(
+//             style: TextButton.styleFrom(
+//               textStyle: Theme.of(context).textTheme.labelLarge,
+//             ),
+//             child: const Text('Disable'),
+//             onPressed: () {
+//               Navigator.of(context).pop();
+//             },
+//           ),
+//           TextButton(
+//             style: TextButton.styleFrom(
+//               textStyle: Theme.of(context).textTheme.labelLarge,
+//             ),
+//             child: const Text('Enable'),
+//             onPressed: () {
+//               Navigator.of(context).pop();
+//             },
+//           ),
+//         ],
+//       );
+//     },
+//   );
+// }

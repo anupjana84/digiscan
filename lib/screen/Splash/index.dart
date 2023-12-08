@@ -1,8 +1,5 @@
 import 'package:digiscan/globalWiget/splashImage.dart';
-import 'package:digiscan/screen/ForgotPassword/index.dart';
-import 'package:digiscan/screen/Success/index.dart';
 import 'package:digiscan/screen/home/index.dart';
-import 'package:digiscan/screen/home/widget/header.dart';
 import 'package:digiscan/screen/login/logIn.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -19,7 +16,6 @@ class Splash extends StatefulWidget {
 class _SplashState extends State<Splash> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     this.getDataa();
   }
