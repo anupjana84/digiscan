@@ -74,15 +74,15 @@ class _ForgotPasswordState extends State<ForgotPassword> {
 
   createAlbum() async {
     var api = Api.baseApi + '/api/v1/register';
-    print(api);
+    // print(api);
     if (!formKey.currentState!.validate()) {
       return mySnak('All Field required', context);
     } else {
       formKey.currentState!.save();
       try {
-        print(email);
-        print(password);
-        print(name);
+        // print(email);
+        // print(password);
+        // print(name);
         showDialog(
             context: context,
             builder: (context) {
@@ -106,8 +106,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
           Navigator.pop(context);
           mySnak(na['message'], context);
           formKey.currentState!.reset();
-          print(na['message']);
-          print("na");
+          // print(na['message']);
+          // print("na");
         } else {
           // If the server did not return a 201 CREATED response,
           // then throw an exception.
@@ -116,15 +116,15 @@ class _ForgotPasswordState extends State<ForgotPassword> {
           // Navigator.of(context).pop();
           Navigator.pop(context);
           mySnak(na['error'], context);
-          print(na['error']);
-          print("error");
+          // print(na['error']);
+          // print("error");
         }
       } catch (e) {
         // Navigator.of(context).pop();
         Navigator.pop(context);
         mySnak('Somthing went wrong', context);
-        print('${e} name');
-        print("e");
+        // print('${e} name');
+        // print("e");
       }
     }
     // if (response.statusCode == 201) {

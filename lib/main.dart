@@ -1,9 +1,6 @@
 import 'package:digiscan/screen/Splash/index.dart';
 import 'package:flutter/material.dart';
 
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-
 void main() {
   runApp(const MyApp());
 }
@@ -18,19 +15,6 @@ class MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-  }
-
-  getData() async {
-    try {
-      final js = await http
-          .get(Uri.parse('https://jsonplaceholder.typicode.com/user'));
-      var da = jsonDecode(js.body);
-      print(js);
-      print(da[0]['address']['zipcode']);
-    } catch (e) {
-      // print('WTF');
-      print('WTF ${e}');
-    }
   }
 
   @override

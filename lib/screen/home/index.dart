@@ -1,5 +1,5 @@
 import 'package:digiscan/screen/Subcription/index.dart';
-import 'package:digiscan/screen/Video/index.dart';
+
 import 'package:digiscan/screen/profile/index.dart';
 import 'package:flutter/material.dart';
 
@@ -16,8 +16,6 @@ class _HomeState extends State<Home> {
     // Add your pages here
     Subcription(),
 
-    Page3(),
-    Video('name'),
     Profile(),
   ];
 
@@ -41,10 +39,10 @@ class _HomeState extends State<Home> {
             icon: Icon(Icons.home),
             label: 'Home',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.image_rounded),
-            label: 'Slides',
-          ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.image_rounded),
+          //   label: 'Slides',
+          // ),
           // BottomNavigationBarItem(
           //   icon: Icon(Icons.videocam_sharp),
           //   label: 'Video',

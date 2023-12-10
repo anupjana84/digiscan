@@ -24,7 +24,7 @@ class _SplashState extends State<Splash> {
     final prefs = await SharedPreferences.getInstance();
     var dta = await prefs.getString('user');
     var userData = jsonDecode(dta.toString());
-    print(userData);
+    // print(userData);
     if (userData != null) {
       Timer(Duration(seconds: 2), () {
         Navigator.pushReplacement(

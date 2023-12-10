@@ -35,11 +35,11 @@ free to reach out. Happy exploring!''';
       final js =
           await http.get(Uri.parse('https://2dcd-103-155-54-197.ngrok.io'));
       var da = jsonDecode(js.body);
-      print(js);
+
       print(da[0]['address']['zipcode']);
     } catch (e) {
       // print('WTF');
-      print('WTF ${e}');
+      // print('WTF ${e}');
     }
   }
 
@@ -77,7 +77,7 @@ free to reach out. Happy exploring!''';
 
   createAlbum() async {
     var api = Api.baseApi + '/api/v1/register';
-    print(api);
+
     if (!formKey.currentState!.validate()) {
       return mySnak('All Field required', context);
     } else {

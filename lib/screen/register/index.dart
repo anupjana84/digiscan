@@ -31,7 +31,6 @@ class _RegisterState extends State<Register> {
 
   createAlbum() async {
     var api = Api.baseApi + '/api/v1/registe';
-    print(api);
 
     try {
       final response = await http.post(
@@ -48,21 +47,17 @@ class _RegisterState extends State<Register> {
       if (response.statusCode == 201) {
         var na = jsonDecode(response.body);
 
-        print(na['message']);
-        print("na");
+        // print(na['message']);
+        // print("na");
       } else {
         // If the server did not return a 201 CREATED response,
         // then throw an exception.
         // throw Exception('Failed to create album.');
         var na = jsonDecode(response.body);
         mySnak('ys', context);
-        print(na['error']);
-        print("error");
       }
     } catch (e) {
       mySnak('yes', context);
-      print('${e} name');
-      print("e");
     }
 
     // if (response.statusCode == 201) {

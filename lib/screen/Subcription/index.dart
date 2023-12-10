@@ -19,7 +19,6 @@ class _SubcriptionState extends State<Subcription> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     this.getDataa();
   }
