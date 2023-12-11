@@ -4,6 +4,7 @@ import 'dart:async';
 
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:digiscan/screen/home/index.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -63,6 +64,35 @@ class _ProfileState extends State<Profile> {
             ),
           ),
           child: Column(children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 20.00),
+                  child: InkWell(
+                      onTap: () {
+                        Navigator.pushReplacement(context,
+                            MaterialPageRoute(builder: (context) => Home()));
+                      },
+                      child: Icon(Icons.arrow_back_ios)),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 20.00),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (context) => Home()));
+                    },
+                    child: Image.asset(
+                      'images/logo.png',
+                      width: 50.00,
+                      height: 50.00,
+                    ),
+                  ),
+                )
+              ],
+            ),
             SizedBox(
               height: 150,
             ),
@@ -88,7 +118,7 @@ class _ProfileState extends State<Profile> {
               child: Row(
                 children: [
                   Expanded(
-                      flex: 4,
+                      flex: 3,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10.0),
                         child: Text('Name',
@@ -96,7 +126,7 @@ class _ProfileState extends State<Profile> {
                                 TextStyle(fontSize: 20, color: Colors.white)),
                       )),
                   Expanded(
-                      flex: 6,
+                      flex: 7,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10.0),
                         child: Text(
@@ -113,7 +143,7 @@ class _ProfileState extends State<Profile> {
               child: Row(
                 children: [
                   Expanded(
-                      flex: 4,
+                      flex: 3,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10.0),
                         child: Text('Email',
@@ -121,7 +151,7 @@ class _ProfileState extends State<Profile> {
                                 TextStyle(fontSize: 20, color: Colors.white)),
                       )),
                   Expanded(
-                      flex: 6,
+                      flex: 7,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10.0),
                         child: Text(
@@ -138,7 +168,7 @@ class _ProfileState extends State<Profile> {
               child: Row(
                 children: [
                   Expanded(
-                      flex: 4,
+                      flex: 3,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10.0),
                         child: Text('Mobile',
@@ -146,7 +176,7 @@ class _ProfileState extends State<Profile> {
                                 TextStyle(fontSize: 20, color: Colors.white)),
                       )),
                   Expanded(
-                      flex: 6,
+                      flex: 7,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10.0),
                         child: Text(
@@ -163,7 +193,7 @@ class _ProfileState extends State<Profile> {
               child: Row(
                 children: [
                   Expanded(
-                      flex: 4,
+                      flex: 3,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10.0),
                         child: Text('User Name',
@@ -171,7 +201,7 @@ class _ProfileState extends State<Profile> {
                                 TextStyle(fontSize: 20, color: Colors.white)),
                       )),
                   Expanded(
-                      flex: 6,
+                      flex: 7,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10.0),
                         child: Text(

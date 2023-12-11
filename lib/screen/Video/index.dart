@@ -1,3 +1,5 @@
+import 'package:digiscan/helper/index.dart';
+import 'package:digiscan/screen/VideoSub/index.dart';
 import 'package:digiscan/screen/home/index.dart';
 
 import 'package:flutter/material.dart';
@@ -30,8 +32,8 @@ class _VideoState extends State<Video> {
     this.getplayListData();
 
     // Replace 'assets/sample.mp4' with the path to your video file
-    _videoPlayerController = VideoPlayerController.networkUrl(
-        Uri.parse('https://youtu.be/nkbp6aUNY5c?si=MHqhOxZ71HNGB0Pb'));
+    _videoPlayerController = VideoPlayerController.networkUrl(Uri.parse(
+        'https://digiscan.co.in/digi-app/public/videos_file/Allengers Digiscan Compact - Serves Multiple Procedures in Different Modalities.mp4'));
     _chewieController = ChewieController(
         videoPlayerController: _videoPlayerController,
         aspectRatio: 16 / 9, // Adjust as needed
@@ -100,6 +102,12 @@ class _VideoState extends State<Video> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Container(
+                  height: 200,
+                  child: Chewie(
+                    controller: _chewieController,
+                  ),
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -108,7 +116,7 @@ class _VideoState extends State<Video> {
                       padding: const EdgeInsets.only(left: 20.00),
                       child: InkWell(
                           onTap: () {
-                            Navigator.pushReplacement(
+                            Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => Home()));
@@ -117,10 +125,16 @@ class _VideoState extends State<Video> {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(right: 20.00),
-                      child: Image.asset(
-                        'images/logo.png',
-                        width: 50.00,
-                        height: 50.00,
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => Home()));
+                        },
+                        child: Image.asset(
+                          'images/logo.png',
+                          width: 50.00,
+                          height: 50.00,
+                        ),
                       ),
                     )
                   ],
@@ -150,89 +164,103 @@ class _VideoState extends State<Video> {
                       itemBuilder: (BuildContext context, int index) {
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.yellow,
-                              borderRadius: BorderRadius.circular(20.00),
-                            ),
-                            margin: EdgeInsets.only(top: 5.00, bottom: 5.00),
-                            height: 180,
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  flex: 6,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(
-                                            20.0), // Top-left corner
-                                        bottomLeft: Radius.circular(
-                                            20.0), // Bottom-right corner
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => VideoSub(),
+                                  settings: RouteSettings(
+                                    arguments: MyArguments('Hello', 'World'),
+                                  ),
+                                ),
+                              );
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.yellow,
+                                borderRadius: BorderRadius.circular(20.00),
+                              ),
+                              margin: EdgeInsets.only(top: 5.00, bottom: 5.00),
+                              height: 180,
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    flex: 6,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(
+                                              20.0), // Top-left corner
+                                          bottomLeft: Radius.circular(
+                                              20.0), // Bottom-right corner
+                                        ),
                                       ),
-                                    ),
-                                    height: 180,
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      child: Image.network(
-                                        data[index]['video_link'],
-                                        fit: BoxFit.fill,
+                                      height: 180,
+                                      child: ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                        child: Image.network(
+                                          data[index]['video_link'],
+                                          fit: BoxFit.fill,
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                                Expanded(
-                                  flex: 4,
-                                  child: Container(
-                                    padding: const EdgeInsets.only(
-                                        left: 5.00, right: 5.00, top: 10.00),
-                                    decoration: BoxDecoration(
-                                      color: Colors.black,
-                                      borderRadius: BorderRadius.only(
-                                        topRight: Radius.circular(20.0),
-                                        bottomRight: Radius.circular(20.0),
+                                  Expanded(
+                                    flex: 4,
+                                    child: Container(
+                                      padding: const EdgeInsets.only(
+                                          left: 5.00, right: 5.00, top: 10.00),
+                                      decoration: BoxDecoration(
+                                        color: Colors.black,
+                                        borderRadius: BorderRadius.only(
+                                          topRight: Radius.circular(20.0),
+                                          bottomRight: Radius.circular(20.0),
+                                        ),
                                       ),
-                                    ),
 
-                                    height: 180, // Set the desired height
-                                    child: Column(children: [
-                                      Text(
-                                        data[index]['name'],
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(top: 12.00),
-                                        child: TextButton(
-                                            onPressed: () {},
-                                            style: TextButton.styleFrom(
-                                              backgroundColor:
-                                                  Color(0xffD09500),
-                                              padding: EdgeInsets.only(
-                                                  left: 8.00,
-                                                  right:
-                                                      8.00), // Button padding
-                                              shape: RoundedRectangleBorder(
-                                                side: BorderSide(
-                                                  color: Color(
-                                                      0xffFFC83E), // Border color
-                                                  width: 2.0, // Border width
+                                      height: 180, // Set the desired height
+                                      child: Column(children: [
+                                        Text(
+                                          data[index]['name'],
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 12.00),
+                                          child: TextButton(
+                                              onPressed: () {},
+                                              style: TextButton.styleFrom(
+                                                backgroundColor:
+                                                    Color(0xffD09500),
+                                                padding: EdgeInsets.only(
+                                                    left: 8.00,
+                                                    right:
+                                                        8.00), // Button padding
+                                                shape: RoundedRectangleBorder(
+                                                  side: BorderSide(
+                                                    color: Color(
+                                                        0xffFFC83E), // Border color
+                                                    width: 2.0, // Border width
+                                                  ),
+
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          5.0), // Border radius
                                                 ),
-
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                        5.0), // Border radius
                                               ),
-                                            ),
-                                            child: Text(
-                                              "Playlist",
-                                              style: TextStyle(
-                                                  color: Color(0xffFFC83E)),
-                                            )),
-                                      )
-                                    ]),
+                                              child: Text(
+                                                "Playlist",
+                                                style: TextStyle(
+                                                    color: Color(0xffFFC83E)),
+                                              )),
+                                        )
+                                      ]),
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         );

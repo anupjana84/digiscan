@@ -6,6 +6,10 @@ import 'dart:async';
 
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:digiscan/api/index.dart';
+
+import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
 class Subcription extends StatefulWidget {
   Subcription({super.key});
@@ -16,6 +20,7 @@ class Subcription extends StatefulWidget {
 
 class _SubcriptionState extends State<Subcription> {
   var email = "";
+  var userSubDate;
 
   @override
   void initState() {
@@ -27,14 +32,48 @@ class _SubcriptionState extends State<Subcription> {
     final prefs = await SharedPreferences.getInstance();
     var userData = await prefs.getString('user');
     var convertData = jsonDecode(userData.toString());
-    print(convertData);
+
     setState(() {
       email = convertData['email'];
     });
+    this.getplayListData(convertData['email']);
+  }
+
+  Future<void> getplayListData(email) async {
+    var api = Api.baseUri;
+
+    try {
+      final response = await http.post(
+        Uri.parse(api + '/user/subscriptions'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{"email": email}),
+      );
+      if (response.statusCode == 200) {
+        var res = jsonDecode(response.body);
+        var sub = res['subscriptions'];
+        var da = sub[0]['sub_to'];
+        var dda = da.split('-');
+        var data = dda[0];
+        var data1 = dda[1];
+        var data2 = dda[2];
+        var d = '$data2-$data1- $data';
+        setState(() {
+          userSubDate = d;
+        });
+      } else {
+        var nodata = jsonDecode(response.body);
+        print(nodata);
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    print(userSubDate);
     return Scaffold(
         body: SafeArea(
       child: Container(
@@ -151,17 +190,31 @@ class _SubcriptionState extends State<Subcription> {
                         child: Center(
                           child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Text(
-                                  "Slides Subscription",
+                                  "SUBCRIPTION ALERT",
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 25.00,
                                       fontWeight: FontWeight.w800),
                                 ),
-                                Text("View subscribed virtual slides",
+                                Text("HI USER THIS IS A REMINDER",
                                     style: TextStyle(
-                                        color: Colors.white, fontSize: 15.00)),
+                                        color: Colors.white, fontSize: 12.5)),
+                                Text(
+                                    "SUBCRIPTION IS GOING TO EXPERE ON $userSubDate",
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 12.5)),
+                                Text("YOU ARE REQUESTED TO YOUR",
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 12.5)),
+                                Text("SUBCRIPTION AT THE EARLIEST FOR",
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 12.5)),
+                                Text("UNINTERRUPTED SERVICE",
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 12.5)),
                               ]),
                         ),
                       ),
