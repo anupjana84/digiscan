@@ -1,4 +1,4 @@
-import 'package:digiscan/screen/Slides/index.dart';
+import 'package:digiscan/screen/VideoBottom/index.dart';
 import 'package:digiscan/screen/Video/index.dart';
 import 'package:digiscan/screen/login/widget/header.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +9,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:digiscan/api/index.dart';
 
 import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
+
+import 'package:url_launcher/url_launcher.dart';
 
 class Subcription extends StatefulWidget {
   Subcription({super.key});
@@ -21,6 +22,7 @@ class Subcription extends StatefulWidget {
 class _SubcriptionState extends State<Subcription> {
   var email = "";
   var userSubDate;
+  final Uri _url = Uri.parse('http://122.160.116.48/DSServer/Login.aspx');
 
   @override
   void initState() {
@@ -71,6 +73,12 @@ class _SubcriptionState extends State<Subcription> {
     }
   }
 
+  Future<void> _launchUrl() async {
+    if (!await launchUrl(_url)) {
+      throw Exception('Could not launch $_url');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     print(userSubDate);
@@ -90,25 +98,120 @@ class _SubcriptionState extends State<Subcription> {
             ],
           ),
         ),
-        child: Column(
+        child: ListView(
           children: [
             Header(),
-            SizedBox(
-              height: 70,
+            Container(
+              height: 270,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("images/alert.png"), // <-- BACKGROUND IMAGE
+                  fit: BoxFit.fitWidth,
+                ),
+              ),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 110),
+                    child: Column(
+                      children: [
+                        Text(
+                          "SUBCRIPTION ALERT",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 23.00,
+                              fontWeight: FontWeight.w800),
+                        ),
+                        Text("HI USER THIS IS A REMINDER THAT YOUR",
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 12.5)),
+                        Text("SUBCRIPTION IS GOING TO EXPEiRE ON $userSubDate",
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 12.5)),
+                        Text("YOU ARE REQUESTED TO RENEW YOUR",
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 12.5)),
+                        Text("SUBSCRIPTION AT THE EARLIEST FOR",
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 12.5)),
+                        Text("UNINTERRUPTED SERVICE",
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 12.5)),
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
+            // Padding(
+            //   padding: EdgeInsets.only(left: 30.0, right: 30.00),
+            //   child: Container(
+            //     height: 150,
+            //     child: Stack(
+            //       children: [
+            //         Container(
+            //             height: 150,
+            //             decoration: BoxDecoration(
+            //               borderRadius: BorderRadius.circular(10.00),
+            //               image: DecorationImage(
+            //                 image: AssetImage(
+            //                     'images/alert.png'), // Adjust the path accordingly
+            //                 fit: BoxFit.fill, // Set height as needed
+            //               ),
+            //             ),
+            //             child: ClipRRect(
+            //               borderRadius: BorderRadius.circular(10.0),
+            //               child: Image(
+            //                 image: AssetImage(
+            //                     'images/alert.png'), // Adjust the path accordingly
+            //                 fit: BoxFit.fill, // Set height as needed
+            //               ),
+            //             )
+            //             ),
+            //         Container(
+            //           height: 200,
+            //           decoration: BoxDecoration(
+            //               color: Color(0xff000000).withOpacity(0.2),
+            //               borderRadius: BorderRadius.circular(10.00)),
+            //           child: Center(
+            //             child: Column(
+            //                 mainAxisAlignment: MainAxisAlignment.center,
+            //                 children: [
+            //                   // Text(
+            //                   //   "Video Subscription",
+            //                   //   style: TextStyle(
+            //                   //       color: Colors.white,
+            //                   //       fontSize: 25.00,
+            //                   //       fontWeight: FontWeight.w800),
+            //                   // ),
+            //                   // Text("Play subscribed videos",
+            //                   //     style: TextStyle(
+            //                   //         color: Colors.white, fontSize: 15.00)),
+            //                 ]),
+            //           ),
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
+
             Padding(
-              padding: EdgeInsets.only(left: 30.0, right: 30.00),
+              padding: EdgeInsets.only(
+                left: 30.0,
+                right: 30.00,
+              ),
               child: InkWell(
                 onTap: () {
                   Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => Video(email)));
+                      MaterialPageRoute(builder: (context) => VideoBottom()));
                 },
                 child: Container(
-                  height: 200,
+                  height: 150,
                   child: Stack(
                     children: [
                       Container(
-                          height: 200,
+                          height: 150,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10.00),
                             // image: DecorationImage(
@@ -126,7 +229,7 @@ class _SubcriptionState extends State<Subcription> {
                             ),
                           )),
                       Container(
-                        height: 200,
+                        height: 150,
                         decoration: BoxDecoration(
                             color: Color(0xff000000).withOpacity(0.2),
                             borderRadius: BorderRadius.circular(10.00)),
@@ -157,15 +260,16 @@ class _SubcriptionState extends State<Subcription> {
               padding: EdgeInsets.only(left: 30.0, right: 30.00),
               child: InkWell(
                 onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Slides()));
+                  // Navigator.push(context,
+                  //     MaterialPageRoute(builder: (context) => Slides()));
+                  _launchUrl();
                 },
                 child: Container(
-                  height: 200,
+                  height: 150,
                   child: Stack(
                     children: [
                       Container(
-                        height: 200,
+                        height: 150,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10.00),
                           // image: DecorationImage(
@@ -183,7 +287,7 @@ class _SubcriptionState extends State<Subcription> {
                         ),
                       ),
                       Container(
-                        height: 200,
+                        height: 150,
                         decoration: BoxDecoration(
                             color: Color(0xff000000).withOpacity(0.2),
                             borderRadius: BorderRadius.circular(10.00)),
@@ -193,28 +297,15 @@ class _SubcriptionState extends State<Subcription> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Text(
-                                  "SUBCRIPTION ALERT",
+                                  "Slides Subscription",
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 25.00,
                                       fontWeight: FontWeight.w800),
                                 ),
-                                Text("HI USER THIS IS A REMINDER",
+                                Text("View subscribed virtual slides",
                                     style: TextStyle(
-                                        color: Colors.white, fontSize: 12.5)),
-                                Text(
-                                    "SUBCRIPTION IS GOING TO EXPERE ON $userSubDate",
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 12.5)),
-                                Text("YOU ARE REQUESTED TO YOUR",
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 12.5)),
-                                Text("SUBCRIPTION AT THE EARLIEST FOR",
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 12.5)),
-                                Text("UNINTERRUPTED SERVICE",
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 12.5)),
+                                        color: Colors.white, fontSize: 15.00)),
                               ]),
                         ),
                       ),

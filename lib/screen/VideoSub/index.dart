@@ -1,28 +1,79 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:js';
+
+import 'package:digiscan/screen/PlayVideo/index.dart';
 
 import 'package:flutter/material.dart';
 
-import 'package:digiscan/helper/index.dart';
-import 'package:digiscan/screen/Video/index.dart';
 import 'package:digiscan/screen/home/index.dart';
 
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:digiscan/api/index.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 class VideoSub extends StatefulWidget {
-  final String userName;
-  MyArguments arguments =
-      ModalRoute.of(context as BuildContext)!.settings.arguments as MyArguments;
-  VideoSub(
-    Key? key,
-    this.userName,
-    this.arguments,
-  ) : super(key: key);
+  VideoSub({super.key});
 
   @override
   State<VideoSub> createState() => _VideoSubState();
 }
 
 class _VideoSubState extends State<VideoSub> {
-  var name = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  var list = [];
+  var videoLink = "";
+  @override
+  void initState() {
+    this.getDataforApi();
+    super.initState();
+  }
+
+  Future<void> getData(email, parentId, subCatId) async {
+    var api = Api.baseUri;
+
+    try {
+      final response = await http.post(
+        Uri.parse(api + '/video-parent-child-playlist'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          "email": email, // "subha999@gmail.com", //"subha999@gmail.com",
+          "parent_category_id": parentId, //'7',
+          "sub_category_id": subCatId //"9"
+        }),
+      );
+      print(response);
+      if (response.statusCode == 200) {
+        var res = jsonDecode(response.body);
+        var listdata = res['uplaylist'];
+        // print(listdata);
+        // print("listdata");
+
+        setState(() {
+          list = listdata;
+        });
+      } else {
+        var na = jsonDecode(response.body);
+        print(na);
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future getDataforApi() async {
+    final prefs = await SharedPreferences.getInstance();
+    var email = await prefs.getString('email');
+
+    var parentId = await prefs.getString('parentId');
+    var subcatId = await prefs.getString('subcatId');
+    var convertEmail = jsonDecode(email.toString());
+    var convertparentId = jsonDecode(parentId.toString());
+    var convertsubcatId = jsonDecode(subcatId.toString());
+
+    this.getData(convertEmail, convertparentId, convertsubcatId);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,7 +128,7 @@ class _VideoSubState extends State<VideoSub> {
                     child: Column(
                       children: [
                         Row(
-                          children: [Text("data")],
+                          children: [Text("")],
                         )
                       ],
                     )),
@@ -88,15 +139,36 @@ class _VideoSubState extends State<VideoSub> {
                           crossAxisSpacing: 8.0,
                           mainAxisSpacing: 8.0,
                         ),
-                        itemCount: 20,
+                        itemCount: list.length,
                         itemBuilder: (BuildContext context, int index) {
                           return Padding(
                             padding: const EdgeInsets.all(10),
                             child: Container(
                               width: 150.0, // Adjust the width as needed
                               height: 250.0,
-                              color: Colors.red,
-                              child: Text('dddd ${widget.userName}'),
+
+                              child: InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    videoLink =
+                                        list[index]['sub_category_video_link'];
+                                  });
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          PlayVideo(this.videoLink),
+                                    ),
+                                  );
+                                },
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  child: Image.network(
+                                    'https://digiscan.co.in/digi-app/public/img/thumb.png',
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
+                              ),
                             ),
                           );
                         }))

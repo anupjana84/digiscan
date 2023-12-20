@@ -1,20 +1,29 @@
-import 'package:digiscan/screen/Subcription/index.dart';
+import 'package:digiscan/screen/VideoSub/index.dart';
 
 import 'package:digiscan/screen/profile/index.dart';
 import 'package:flutter/material.dart';
 
-class Home extends StatefulWidget {
+class VideoSubBottom extends StatefulWidget {
+  VideoSubBottom({super.key});
   @override
-  _HomeState createState() => _HomeState();
+  _VideoSubBottomState createState() => _VideoSubBottomState();
 }
 
-class _HomeState extends State<Home> {
+class _VideoSubBottomState extends State<VideoSubBottom> {
   int _currentIndex = 0;
 
   var name = "";
+  var parentId = "";
+  var email1 = "";
+  var subCatId = "";
+  @override
+  void initState() {
+    super.initState();
+  }
+
   final List<Widget> _pages = [
     // Add your pages here
-    Subcription(),
+    new VideoSub(),
 
     Profile(),
   ];
@@ -55,4 +64,21 @@ class _HomeState extends State<Home> {
       ),
     );
   }
+
+  // _buildPage(int index) {
+  //   setState(() {
+  //     parentId = widget.parentId;
+  //     email1 = widget.email1;
+  //     subCatId = widget.subCatId;
+  //   });
+  //   print(this.email1);
+  //   switch (index) {
+  //     case 0:
+  //       return VideoSub(this.parentId, this.email1, this.subCatId);
+  //     case 1:
+  //       return Profile();
+  //     // Add more cases for additional pages
+  //     // Handle unexpected index
+  //   }
+  // }
 }

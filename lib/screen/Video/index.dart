@@ -1,5 +1,4 @@
-import 'package:digiscan/helper/index.dart';
-import 'package:digiscan/screen/VideoSub/index.dart';
+import 'package:digiscan/screen/VideoSubBottom/index.dart';
 import 'package:digiscan/screen/home/index.dart';
 
 import 'package:flutter/material.dart';
@@ -7,8 +6,7 @@ import 'package:digiscan/api/index.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import 'package:video_player/video_player.dart';
-import 'package:chewie/chewie.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Video extends StatefulWidget {
   final String email;
@@ -20,32 +18,31 @@ class Video extends StatefulWidget {
 }
 
 class _VideoState extends State<Video> {
-  late VideoPlayerController _videoPlayerController;
-  late ChewieController _chewieController;
-
   List data = [];
   var isLoading = false;
+
+  var email1 = "";
 
   @override
   void initState() {
     super.initState();
-    this.getplayListData();
+    this.getDataa();
 
     // Replace 'assets/sample.mp4' with the path to your video file
-    _videoPlayerController = VideoPlayerController.networkUrl(Uri.parse(
-        'https://digiscan.co.in/digi-app/public/videos_file/Allengers Digiscan Compact - Serves Multiple Procedures in Different Modalities.mp4'));
-    _chewieController = ChewieController(
-        videoPlayerController: _videoPlayerController,
-        aspectRatio: 16 / 9, // Adjust as needed
-        autoPlay: false,
-        looping: false,
-        fullScreenByDefault: false,
-        showOptions: false
-        // Other customization options...
-        );
   }
 
-  Future<void> getplayListData() async {
+  Future getDataa() async {
+    final prefs = await SharedPreferences.getInstance();
+    var userData = await prefs.getString('user');
+    var convertData = jsonDecode(userData.toString());
+
+    setState(() {
+      email1 = convertData['email'];
+    });
+    this.getplayListData(convertData['email']);
+  }
+
+  Future<void> getplayListData(email) async {
     var api = Api.baseUri;
 
     try {
@@ -54,16 +51,15 @@ class _VideoState extends State<Video> {
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
-        body: jsonEncode(<String, String>{"email": widget.email}),
+        body: jsonEncode(<String, String>{"email": email}),
       );
       if (response.statusCode == 200) {
         var res = jsonDecode(response.body);
         var listdata = res['parentCategoryPlaylist'];
-        print(listdata);
+
         setState(() {
           data = listdata;
         });
-        print(data);
       } else {
         var na = jsonDecode(response.body);
         print(na);
@@ -78,6 +74,13 @@ class _VideoState extends State<Video> {
     // TODO: implement dispose
 
     super.dispose();
+  }
+
+  saveData(email, parentId, subcatId) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('email', jsonEncode(email));
+    await prefs.setString('parentId', jsonEncode(parentId));
+    await prefs.setString('subcatId', jsonEncode(subcatId));
   }
 
   @override
@@ -102,12 +105,12 @@ class _VideoState extends State<Video> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  height: 200,
-                  child: Chewie(
-                    controller: _chewieController,
-                  ),
-                ),
+                // Container(
+                //   height: 200,
+                //   child: Chewie(
+                //     controller: _chewieController,
+                //   ),
+                // ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -146,7 +149,7 @@ class _VideoState extends State<Video> {
                     style: TextStyle(
                         fontSize: 25.00,
                         fontWeight: FontWeight.w400,
-                        color: Colors.white),
+                        color: Colors.black),
                   ),
                 ),
                 Padding(
@@ -155,7 +158,7 @@ class _VideoState extends State<Video> {
                       style: TextStyle(
                           fontSize: 25.00,
                           fontWeight: FontWeight.w400,
-                          color: Colors.white)),
+                          color: Colors.black)),
                 ),
                 Expanded(
                   child: ListView.builder(
@@ -166,20 +169,26 @@ class _VideoState extends State<Video> {
                           padding: const EdgeInsets.all(8.0),
                           child: InkWell(
                             onTap: () {
+                              saveData(
+                                  this.email1,
+                                  data[index]['parent_category_id'].toString(),
+                                  data[index]['sub_category_id'].toString());
+
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => VideoSub(),
-                                  settings: RouteSettings(
-                                    arguments: MyArguments('Hello', 'World'),
-                                  ),
+                                  builder: (context) => new VideoSubBottom(),
                                 ),
                               );
                             },
                             child: Container(
                               decoration: BoxDecoration(
-                                color: Colors.yellow,
-                                borderRadius: BorderRadius.circular(20.00),
+                                borderRadius: BorderRadius.only(
+                                  topLeft:
+                                      Radius.circular(20.0), // Top-left corner
+                                  bottomLeft: Radius.circular(
+                                      20.0), // Bottom-right corner
+                                ),
                               ),
                               margin: EdgeInsets.only(top: 5.00, bottom: 5.00),
                               height: 180,
@@ -198,8 +207,12 @@ class _VideoState extends State<Video> {
                                       ),
                                       height: 180,
                                       child: ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
+                                        borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(
+                                              20.0), // Top-left corner
+                                          bottomLeft: Radius.circular(
+                                              20.0), // Bottom-right corner
+                                        ),
                                         child: Image.network(
                                           data[index]['video_link'],
                                           fit: BoxFit.fill,

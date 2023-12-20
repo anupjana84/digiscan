@@ -1,20 +1,20 @@
-import 'package:digiscan/screen/Subcription/index.dart';
+import 'package:digiscan/screen/Video/index.dart';
 
 import 'package:digiscan/screen/profile/index.dart';
 import 'package:flutter/material.dart';
 
-class Home extends StatefulWidget {
+class VideoBottom extends StatefulWidget {
   @override
-  _HomeState createState() => _HomeState();
+  _VideoBottomState createState() => _VideoBottomState();
 }
 
-class _HomeState extends State<Home> {
+class _VideoBottomState extends State<VideoBottom> {
   int _currentIndex = 0;
 
   var name = "";
   final List<Widget> _pages = [
     // Add your pages here
-    Subcription(),
+    Video(""),
 
     Profile(),
   ];

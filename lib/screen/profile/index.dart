@@ -41,6 +41,9 @@ class _ProfileState extends State<Profile> {
   Future logOut() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('user');
+    await prefs.remove('email');
+    await prefs.remove('parentId');
+    await prefs.remove('subcatId');
 
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => Login()));
