@@ -36,8 +36,8 @@ class _VideoBottomState extends State<VideoBottom> {
         },
         items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
+            icon: Icon(Icons.list),
+            label: 'Playlist',
           ),
           // BottomNavigationBarItem(
           //   icon: Icon(Icons.image_rounded),

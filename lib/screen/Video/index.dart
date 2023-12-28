@@ -76,11 +76,10 @@ class _VideoState extends State<Video> {
     super.dispose();
   }
 
-  saveData(email, parentId, subcatId) async {
+  saveData(email, parentId) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('email', jsonEncode(email));
     await prefs.setString('parentId', jsonEncode(parentId));
-    await prefs.setString('subcatId', jsonEncode(subcatId));
   }
 
   @override
@@ -145,21 +144,14 @@ class _VideoState extends State<Video> {
                 Padding(
                   padding: const EdgeInsets.only(left: 20.00),
                   child: Text(
-                    'Lecture Videos for ',
+                    'Subscribed Videos Playlist',
                     style: TextStyle(
                         fontSize: 25.00,
                         fontWeight: FontWeight.w400,
                         color: Colors.black),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 20.00),
-                  child: Text('MBBS Students',
-                      style: TextStyle(
-                          fontSize: 25.00,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.black)),
-                ),
+
                 Expanded(
                   child: ListView.builder(
                       itemExtent: 200.00,
@@ -169,10 +161,8 @@ class _VideoState extends State<Video> {
                           padding: const EdgeInsets.all(8.0),
                           child: InkWell(
                             onTap: () {
-                              saveData(
-                                  this.email1,
-                                  data[index]['parent_category_id'].toString(),
-                                  data[index]['sub_category_id'].toString());
+                              saveData(this.email1,
+                                  data[index]['parent_category_id'].toString());
 
                               Navigator.push(
                                 context,

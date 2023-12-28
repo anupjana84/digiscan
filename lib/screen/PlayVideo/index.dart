@@ -8,7 +8,8 @@ import 'package:appinio_video_player/appinio_video_player.dart';
 
 class PlayVideo extends StatefulWidget {
   final String videoLink;
-  const PlayVideo(this.videoLink, {super.key});
+  final String title;
+  const PlayVideo(this.videoLink, this.title, {super.key});
 
   @override
   State<PlayVideo> createState() => _PlayVideoState();
@@ -17,7 +18,7 @@ class PlayVideo extends StatefulWidget {
 class _PlayVideoState extends State<PlayVideo> {
   late VideoPlayerController videoPlayerController;
   late CustomVideoPlayerController _customVideoPlayerController;
-  var linkVideo = "";
+
   @override
   void initState() {
     super.initState();
@@ -110,8 +111,21 @@ class _PlayVideoState extends State<PlayVideo> {
                           height: 50.00,
                         ),
                       ),
-                    )
+                    ),
                   ],
+                ),
+                SizedBox(
+                  height: 150,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    new Icon(Icons.arrow_forward_ios, size: 12.0),
+                    Text(widget.title),
+                  ],
+                ),
+                SizedBox(
+                  height: 15.00,
                 ),
                 Container(
                   height: 150,

@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
+import 'package:digiscan/screen/ParentChildBottom/index.dart';
 import 'package:digiscan/screen/PlayVideo/index.dart';
+import 'package:digiscan/screen/SubCategory/index.dart';
 
 import 'package:flutter/material.dart';
 
@@ -27,19 +29,18 @@ class _VideoSubState extends State<VideoSub> {
     super.initState();
   }
 
-  Future<void> getData(email, parentId, subCatId) async {
+  Future<void> getData(email, parentId) async {
     var api = Api.baseUri;
 
     try {
       final response = await http.post(
-        Uri.parse(api + '/video-parent-child-playlist'),
+        Uri.parse(api + '/video-child-playlist'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
         body: jsonEncode(<String, String>{
           "email": email, // "subha999@gmail.com", //"subha999@gmail.com",
           "parent_category_id": parentId, //'7',
-          "sub_category_id": subCatId //"9"
         }),
       );
       print(response);
@@ -66,12 +67,16 @@ class _VideoSubState extends State<VideoSub> {
     var email = await prefs.getString('email');
 
     var parentId = await prefs.getString('parentId');
-    var subcatId = await prefs.getString('subcatId');
+
     var convertEmail = jsonDecode(email.toString());
     var convertparentId = jsonDecode(parentId.toString());
-    var convertsubcatId = jsonDecode(subcatId.toString());
 
-    this.getData(convertEmail, convertparentId, convertsubcatId);
+    this.getData(convertEmail, convertparentId);
+  }
+
+  saveData(subCatId) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('subCatId', jsonEncode(subCatId));
   }
 
   @override
@@ -133,45 +138,125 @@ class _VideoSubState extends State<VideoSub> {
                       ],
                     )),
                 Expanded(
-                    child: GridView.builder(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 8.0,
-                          mainAxisSpacing: 8.0,
-                        ),
-                        itemCount: list.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: Container(
-                              width: 150.0, // Adjust the width as needed
-                              height: 250.0,
+                  child: ListView.builder(
+                      itemCount: list.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Column(
+                          children: [
+                            Container(
+                              color: Colors.blue,
+                              alignment: Alignment.center,
+                              child: Text(list[index]["sub_category_name"]),
+                            ),
+                            ListView.builder(
+                                // inner ListView
+                                shrinkWrap: true, // 1st add
+                                physics: ClampingScrollPhysics(), // 2nd add
+                                itemCount: list[index]['videos'].length,
+                                itemBuilder: (BuildContext context, indexx) {
+                                  return Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: InkWell(
+                                      onTap: () {
+                                        saveData(list[index]['videos'][indexx]
+                                                ['sub_category_video_id']
+                                            .toString());
+                                        // setState(() {
+                                        //   videoLink =
+                                        //       list[index]['sub_category_video_link'];
+                                        // });
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  //PlayVideo(this.videoLink),
+                                                  ParentChildBottom()),
+                                        );
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(
+                                                20.0), // Top-left corner
+                                            bottomLeft: Radius.circular(
+                                                20.0), // Bottom-right corner
+                                          ),
+                                        ),
+                                        margin: EdgeInsets.only(
+                                            top: 5.00, bottom: 5.00),
+                                        height: 180,
+                                        child: Row(
+                                          children: [
+                                            Expanded(
+                                              flex: 6,
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.only(
+                                                    topLeft: Radius.circular(
+                                                        20.0), // Top-left corner
+                                                    bottomLeft: Radius.circular(
+                                                        20.0), // Bottom-right corner
+                                                  ),
+                                                ),
+                                                height: 180,
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.only(
+                                                    topLeft: Radius.circular(
+                                                        20.0), // Top-left corner
+                                                    bottomLeft: Radius.circular(
+                                                        20.0), // Bottom-right corner
+                                                  ),
+                                                  child: Image.network(
+                                                    list[index]['videos']
+                                                            [indexx]
+                                                        ['video_thumb_nail'],
+                                                    fit: BoxFit.fill,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            Expanded(
+                                              flex: 4,
+                                              child: Container(
+                                                padding: const EdgeInsets.only(
+                                                    left: 5.00,
+                                                    right: 5.00,
+                                                    top: 10.00),
+                                                decoration: BoxDecoration(
+                                                  color: Colors.black,
+                                                  borderRadius:
+                                                      BorderRadius.only(
+                                                    topRight:
+                                                        Radius.circular(20.0),
+                                                    bottomRight:
+                                                        Radius.circular(20.0),
+                                                  ),
+                                                ),
 
-                              child: InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    videoLink =
-                                        list[index]['sub_category_video_link'];
-                                  });
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          PlayVideo(this.videoLink),
+                                                height:
+                                                    180, // Set the desired height
+                                                child: Column(children: [
+                                                  Text(
+                                                    '${list[index]['videos'][indexx]['video_name']}',
+                                                    style: TextStyle(
+                                                        color: Colors.white),
+                                                  ),
+                                                ]),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
                                     ),
                                   );
-                                },
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  child: Image.network(
-                                    'https://digiscan.co.in/digi-app/public/img/thumb.png',
-                                    fit: BoxFit.fill,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          );
-                        }))
+                                  ;
+                                })
+                          ],
+                        );
+                      }),
+                ),
               ],
             )),
       ),

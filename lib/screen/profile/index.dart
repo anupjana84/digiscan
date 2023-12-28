@@ -43,7 +43,8 @@ class _ProfileState extends State<Profile> {
     await prefs.remove('user');
     await prefs.remove('email');
     await prefs.remove('parentId');
-    await prefs.remove('subcatId');
+
+    await prefs.remove('subCatId');
 
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => Login()));

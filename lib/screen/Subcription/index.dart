@@ -22,7 +22,12 @@ class Subcription extends StatefulWidget {
 class _SubcriptionState extends State<Subcription> {
   var email = "";
   var userSubDate;
-  final Uri _url = Uri.parse('http://122.160.116.48/DSServer/Login.aspx');
+  var tittle = "";
+  var subtitle = "";
+  var urlLink = "";
+
+  DateTime currentDate = DateTime.now();
+  DateTime currentDate1 = DateTime.now();
 
   @override
   void initState() {
@@ -39,6 +44,7 @@ class _SubcriptionState extends State<Subcription> {
       email = convertData['email'];
     });
     this.getplayListData(convertData['email']);
+    this.sliderData(convertData['email']);
   }
 
   Future<void> getplayListData(email) async {
@@ -55,14 +61,49 @@ class _SubcriptionState extends State<Subcription> {
       if (response.statusCode == 200) {
         var res = jsonDecode(response.body);
         var sub = res['subscriptions'];
+
         var da = sub[0]['sub_to'];
+        print(da);
+        print("da");
+
         var dda = da.split('-');
         var data = dda[0];
         var data1 = dda[1];
         var data2 = dda[2];
         var d = '$data2-$data1- $data';
+        DateTime dater = DateTime.parse(da);
         setState(() {
           userSubDate = d;
+          currentDate = dater;
+        });
+      } else {
+        var nodata = jsonDecode(response.body);
+        print(nodata);
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> sliderData(email) async {
+    var api = Api.baseUri;
+
+    try {
+      final response = await http.get(
+        Uri.parse(api + '/slides'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      if (response.statusCode == 200) {
+        var res = jsonDecode(response.body);
+        var sub = res['slides'];
+        print(sub[0]['title']);
+
+        setState(() {
+          tittle = sub[0]['title'];
+          subtitle = sub[0]['slug'];
+          urlLink = sub[0]['url'];
         });
       } else {
         var nodata = jsonDecode(response.body);
@@ -74,9 +115,16 @@ class _SubcriptionState extends State<Subcription> {
   }
 
   Future<void> _launchUrl() async {
-    if (!await launchUrl(_url)) {
-      throw Exception('Could not launch $_url');
+    if (!await launchUrl(Uri.parse(urlLink))) {
+      throw Exception('Could not launch $urlLink');
     }
+  }
+
+  mySnak(message, context) {
+    return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(message),
+      backgroundColor: Colors.red[600],
+    ));
   }
 
   @override
@@ -144,58 +192,6 @@ class _SubcriptionState extends State<Subcription> {
                 ],
               ),
             ),
-            // Padding(
-            //   padding: EdgeInsets.only(left: 30.0, right: 30.00),
-            //   child: Container(
-            //     height: 150,
-            //     child: Stack(
-            //       children: [
-            //         Container(
-            //             height: 150,
-            //             decoration: BoxDecoration(
-            //               borderRadius: BorderRadius.circular(10.00),
-            //               image: DecorationImage(
-            //                 image: AssetImage(
-            //                     'images/alert.png'), // Adjust the path accordingly
-            //                 fit: BoxFit.fill, // Set height as needed
-            //               ),
-            //             ),
-            //             child: ClipRRect(
-            //               borderRadius: BorderRadius.circular(10.0),
-            //               child: Image(
-            //                 image: AssetImage(
-            //                     'images/alert.png'), // Adjust the path accordingly
-            //                 fit: BoxFit.fill, // Set height as needed
-            //               ),
-            //             )
-            //             ),
-            //         Container(
-            //           height: 200,
-            //           decoration: BoxDecoration(
-            //               color: Color(0xff000000).withOpacity(0.2),
-            //               borderRadius: BorderRadius.circular(10.00)),
-            //           child: Center(
-            //             child: Column(
-            //                 mainAxisAlignment: MainAxisAlignment.center,
-            //                 children: [
-            //                   // Text(
-            //                   //   "Video Subscription",
-            //                   //   style: TextStyle(
-            //                   //       color: Colors.white,
-            //                   //       fontSize: 25.00,
-            //                   //       fontWeight: FontWeight.w800),
-            //                   // ),
-            //                   // Text("Play subscribed videos",
-            //                   //     style: TextStyle(
-            //                   //         color: Colors.white, fontSize: 15.00)),
-            //                 ]),
-            //           ),
-            //         ),
-            //       ],
-            //     ),
-            //   ),
-            // ),
-
             Padding(
               padding: EdgeInsets.only(
                 left: 30.0,
@@ -203,8 +199,13 @@ class _SubcriptionState extends State<Subcription> {
               ),
               child: InkWell(
                 onTap: () {
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => VideoBottom()));
+                  if (currentDate.isAfter(currentDate1)) {
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => VideoBottom()));
+                  } else {
+                    mySnak('please Subcription add', context);
+                  }
+                  // ;
                 },
                 child: Container(
                   height: 150,
@@ -297,13 +298,13 @@ class _SubcriptionState extends State<Subcription> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Text(
-                                  "Slides Subscription",
+                                  tittle,
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 25.00,
                                       fontWeight: FontWeight.w800),
                                 ),
-                                Text("View subscribed virtual slides",
+                                Text(subtitle,
                                     style: TextStyle(
                                         color: Colors.white, fontSize: 15.00)),
                               ]),

@@ -1,29 +1,21 @@
-import 'package:digiscan/screen/VideoSub/index.dart';
+import 'package:digiscan/screen/SubCategory/index.dart';
+import 'package:digiscan/screen/Video/index.dart';
 
 import 'package:digiscan/screen/profile/index.dart';
 import 'package:flutter/material.dart';
 
-class VideoSubBottom extends StatefulWidget {
-  VideoSubBottom({super.key});
+class ParentChildBottom extends StatefulWidget {
   @override
-  _VideoSubBottomState createState() => _VideoSubBottomState();
+  _ParentChildBottomState createState() => _ParentChildBottomState();
 }
 
-class _VideoSubBottomState extends State<VideoSubBottom> {
+class _ParentChildBottomState extends State<ParentChildBottom> {
   int _currentIndex = 0;
 
   var name = "";
-  var parentId = "";
-  var email1 = "";
-  var subCatId = "";
-  @override
-  void initState() {
-    super.initState();
-  }
-
   final List<Widget> _pages = [
     // Add your pages here
-    new VideoSub(),
+    SubCategory(),
 
     Profile(),
   ];
@@ -45,8 +37,8 @@ class _VideoSubBottomState extends State<VideoSubBottom> {
         },
         items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.category),
-            label: 'Category List',
+            icon: Icon(Icons.featured_play_list),
+            label: 'Video List',
           ),
           // BottomNavigationBarItem(
           //   icon: Icon(Icons.image_rounded),
@@ -64,21 +56,4 @@ class _VideoSubBottomState extends State<VideoSubBottom> {
       ),
     );
   }
-
-  // _buildPage(int index) {
-  //   setState(() {
-  //     parentId = widget.parentId;
-  //     email1 = widget.email1;
-  //     subCatId = widget.subCatId;
-  //   });
-  //   print(this.email1);
-  //   switch (index) {
-  //     case 0:
-  //       return VideoSub(this.parentId, this.email1, this.subCatId);
-  //     case 1:
-  //       return Profile();
-  //     // Add more cases for additional pages
-  //     // Handle unexpected index
-  //   }
-  // }
 }
