@@ -5,10 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:digiscan/api/index.dart';
 // import 'dart:async';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:digiscan/provider/user.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -24,7 +26,7 @@ class _LoginState extends State<Login> {
   var password;
   var name;
   bool show = true;
-
+  var num = 2;
   @override
   void initState() {
     super.initState();
@@ -84,9 +86,6 @@ class _LoginState extends State<Login> {
     } else {
       formKey.currentState!.save();
       try {
-        print(email);
-        print(password);
-        print(name);
         showDialog(
             context: context,
             builder: (context) {
@@ -103,17 +102,27 @@ class _LoginState extends State<Login> {
         );
         if (response.statusCode == 200) {
           var res = jsonDecode(response.body);
+          if (res['status'] == '2') {
+            mySnak('Your Account Pending', context);
+          } else if (res['status'] == '3') {
+            mySnak('Your Account Suspended', context);
+          } else {
+            print(res['email']);
+            print(res['email']);
+            final emailuser = res['email'];
+            final userprovider =
+                Provider.of<UserProvider>(context, listen: false);
+            userprovider.setUserEmail(emailuser);
+            // Navigator.pop(context);
 
-          Navigator.pop(context);
+            final prefs = await SharedPreferences.getInstance();
+            await prefs.setString('user', jsonEncode(res));
 
-          // formKey.currentState!.reset();
-          final prefs = await SharedPreferences.getInstance();
-          await prefs.setString('user', jsonEncode(res));
+            Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: (context) => Home()));
+          }
 
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => Home()));
-          // // print(res['error']);
-          print(res);
+          // res['status']
         } else {
           var na = jsonDecode(response.body);
 
@@ -124,8 +133,6 @@ class _LoginState extends State<Login> {
         // Navigator.of(context).pop();
         Navigator.pop(context);
         mySnak('Somthing went wrong', context);
-
-        print("e");
       }
     }
     // if (response.statusCode == 201) {

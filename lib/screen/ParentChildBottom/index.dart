@@ -1,5 +1,4 @@
 import 'package:digiscan/screen/SubCategory/index.dart';
-import 'package:digiscan/screen/Video/index.dart';
 
 import 'package:digiscan/screen/profile/index.dart';
 import 'package:flutter/material.dart';

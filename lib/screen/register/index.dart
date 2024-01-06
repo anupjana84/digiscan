@@ -48,13 +48,14 @@ class _RegisterState extends State<Register> {
         var na = jsonDecode(response.body);
 
         // print(na['message']);
-        // print("na");
+        print(na);
       } else {
         // If the server did not return a 201 CREATED response,
         // then throw an exception.
         // throw Exception('Failed to create album.');
         var na = jsonDecode(response.body);
         mySnak('ys', context);
+        print(na);
       }
     } catch (e) {
       mySnak('yes', context);

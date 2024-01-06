@@ -6,6 +6,9 @@ import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
+import 'package:provider/provider.dart';
+import 'package:digiscan/provider/user.dart';
+
 class Splash extends StatefulWidget {
   const Splash({super.key});
 
@@ -26,6 +29,8 @@ class _SplashState extends State<Splash> {
     var userData = jsonDecode(dta.toString());
     // print(userData);
     if (userData != null) {
+      final userprovider = Provider.of<UserProvider>(context, listen: false);
+      userprovider.setUserEmail(userData['email']);
       Timer(Duration(seconds: 2), () {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => Home()));

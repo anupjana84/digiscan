@@ -87,16 +87,37 @@ class _PlayVideoState extends State<PlayVideo> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(left: 20.00),
-                      child: InkWell(
-                          onTap: () {
-                            _customVideoPlayerController
-                                .customVideoPlayerSettings;
-
+                        padding: const EdgeInsets.only(left: 10.00),
+                        child: ElevatedButton(
+                          onPressed: () {
                             Navigator.pop(context);
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) => Home()));
                           },
-                          child: Icon(Icons.arrow_back_ios)),
-                    ),
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 10.0),
+                            child: Icon(Icons.arrow_back_ios),
+                          ), // Icon(Icons.menu, color: Colors.white),
+                          style: ElevatedButton.styleFrom(
+                            shape: CircleBorder(),
+                            padding: EdgeInsets.all(10),
+                            backgroundColor:
+                                Color(0xff6E3E82), // <-- Button color
+                            foregroundColor: Colors.white, // <-- Splash color
+                          ),
+                        )
+                        // InkWell(
+                        //     onTap: () {
+                        //       _customVideoPlayerController
+                        //           .customVideoPlayerSettings;
+
+                        //       Navigator.pop(context);
+                        //     },
+                        //     child: Icon(Icons.arrow_back_ios)
+                        //     ),
+                        ),
                     Padding(
                       padding: const EdgeInsets.only(right: 20.00),
                       child: InkWell(
@@ -120,8 +141,17 @@ class _PlayVideoState extends State<PlayVideo> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    new Icon(Icons.arrow_forward_ios, size: 12.0),
-                    Text(widget.title),
+                    Expanded(
+                      flex: 1,
+                      child: new Icon(Icons.arrow_forward_ios, size: 12.0),
+                    ),
+                    Expanded(
+                      flex: 10,
+                      child: Text(
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          '${widget.title}'),
+                    )
                   ],
                 ),
                 SizedBox(
